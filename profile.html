@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Profile</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="IMAGE.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary-silver: #e5e7eb;       
+            --secondary-silver: #9ca3af;     
+            --dark-metal: #1f2937;           
+            --bg-dark: #0b0c10;              
+            --glass-bg: rgba(31, 41, 55, 0.4); 
+            --glass-border: rgba(148, 163, 184, 0.2); 
+            --text-color: #f3f4f6;           
+            --text-muted: #9ca3af;
+            --accent-green: #4ade80;
+            --accent-gold: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #1a1d24 0%, #000000 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Top Navigation Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo img {
+            max-width: 130px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: 0.3s;
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .nav-icon:hover, .nav-icon.active {
+            color: var(--primary-silver);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .nav-icon i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-icon span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #d1d5db, #9ca3af);
+            border: none;
+            border-radius: 8px;
+            color: #1f2937;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(145deg, #e5e7eb, #d1d5db);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Global Rank Badge */
+        .rank-badge {
+            background: linear-gradient(145deg, #fbbf24, #f59e0b);
+            color: #0b0c10;
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 5px 20px rgba(251, 191, 36, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .rank-badge i {
+            font-size: 1.5rem;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #d1d5db, #9ca3af);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6);
+        }
+
+        .profile-avatar i {
+            font-size: 3rem;
+            color: var(--dark-metal);
+        }
+
+        .profile-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-silver);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .profile-email {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        /* Profile Details */
+        .profile-details {
+            text-align: left;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            color: var(--primary-silver);
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-value input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--primary-silver);
+            font-size: 0.95rem;
+            width: 200px;
+        }
+
+        .detail-value input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .edit-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .edit-btn:hover {
+            color: var(--primary-silver);
+        }
+
+        .save-btn {
+            padding: 8px 20px;
+            background: linear-gradient(145deg, #4ade80, #22c55e);
+            border: none;
+            border-radius: 6px;
+            color: #0b0c10;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* KYC Button */
+        .kyc-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .kyc-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-silver);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .kyc-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .kyc-btn {
+            padding: 15px 40px;
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .kyc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 95%;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .top-bar {
+                padding: 15px 30px;
+            }
+            
+            .logo img {
+                max-width: 110px;
+            }
+            
+            .profile-card {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+            
+            .nav-icons {
+                gap: 5px;
+            }
+            
+            .nav-icon {
+                padding: 8px 12px;
+            }
+            
+            .nav-icon i {
+                font-size: 1.2rem;
+            }
+            
+            .nav-icon span {
+                font-size: 0.6rem;
+            }
+            
+            .profile-card {
+                padding: 25px;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .detail-value input {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .logo img {
+                max-width: 90px;
+            }
+            
+            .nav-icons {
+                gap: 2px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-icon {
+                padding: 6px 8px;
+            }
+            
+            .nav-icon i {
+                font-size: 1rem;
+            }
+            
+            .nav-icon span {
+                font-size: 0.5rem;
+            }
+            
+            .container {
+                margin: 15px auto;
+                padding: 10px;
+            }
+            
+            .profile-card {
+                padding: 20px;
+                border-radius: 20px;
+            }
+            
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .profile-name {
+                font-size: 1.4rem;
+            }
+            
+            .detail-label {
+                font-size: 0.85rem;
+            }
+            
+            .detail-value input {
+                font-size: 0.9rem;
+            }
+            
+            .edit-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .top-bar {
+                padding: 8px 10px;
+            }
+            
+            .logo img {
+                max-width: 70px;
+            }
+            
+            .nav-icon {
+                padding: 5px 6px;
+            }
+            
+            .profile-card {
+                padding: 15px;
+            }
+            
+            .profile-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .profile-name {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="logo">
+            <img src="IMAGE.png" alt="Nexora Logo">
+        </div>
+        <div class="nav-icons">
+            <a href="home.html" class="nav-icon">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="invite.html" class="nav-icon">
+                <i class="fas fa-user-plus"></i>
+                <span>Invite</span>
+            </a>
+            <a href="wallet.html" class="nav-icon">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet</span>
+            </a>
+            <a href="profile.html" class="nav-icon active">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Global Rank -->
+        <div class="rank-badge">
+            <i class="fas fa-trophy"></i>
+            Global Rank: <span id="globalRank">#1,234</span>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h1 class="profile-name" id="profileName">Nexora User</h1>
+            <p class="profile-email" id="profileEmail">user@nexora.com</p>
+
+            <div class="profile-details">
+                <div class="detail-item">
+                    <span class="detail-label">Full Name</span>
+                    <div class="detail-value">
+                        <span id="nameValue">John Smith</span>
+                        <button class="edit-btn" onclick="editField('name')"><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Email</span>
+                    <div class="detail-value">
+                        <span id="emailValue">user@nexora.com</span>
+                        <button class="edit-btn" onclick="editField('email')"><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Country</span>
+                    <div class="detail-value">
+                        <span id="countryValue">Pakistan</span>
+                        <button class="edit-btn" onclick="editField('country')"><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">City</span>
+                    <div class="detail-value">
+                        <span id="cityValue">Karachi</span>
+                        <button class="edit-btn" onclick="editField('city')"><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Province</span>
+                    <div class="detail-value">
+                        <span id="provinceValue">Sindh</span>
+                        <button class="edit-btn" onclick="editField('province')"><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KYC Section -->
+        <div class="kyc-section">
+            <h2 class="kyc-title">Verify Your Identity</h2>
+            <p class="kyc-subtitle">Complete KYC verification to unlock all features</p>
+            <a href="kyc.html" class="kyc-btn">
+                <i class="fas fa-id-card"></i> Go to KYC
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Load user profile data
+        let userProfile = JSON.parse(localStorage.getItem('nexora_user_profile')) || {
+            name: 'John Smith',
+            email: 'user@nexora.com',
+            country: 'Pakistan',
+            city: 'Karachi',
+            province: 'Sindh'
+        };
+
+        // Update profile display
+        document.getElementById('profileName').textContent = userProfile.name;
+        document.getElementById('profileEmail').textContent = userProfile.email;
+        document.getElementById('nameValue').textContent = userProfile.name;
+        document.getElementById('emailValue').textContent = userProfile.email;
+        document.getElementById('countryValue').textContent = userProfile.country;
+        document.getElementById('cityValue').textContent = userProfile.city;
+        document.getElementById('provinceValue').textContent = userProfile.province;
+
+        function editField(field) {
+            const valueSpan = document.getElementById(field + 'Value');
+            const currentValue = valueSpan.textContent;
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentValue;
+            input.id = field + 'Input';
+            
+            const saveBtn = document.createElement('button');
+            saveBtn.className = 'save-btn';
+            saveBtn.textContent = 'Save';
+            saveBtn.onclick = function() { saveField(field); };
+            
+            valueSpan.replaceWith(input);
+            
+            const editBtn = document.querySelector(`[onclick="editField('${field}')"]`);
+            editBtn.replaceWith(saveBtn);
+        }
+
+        function saveField(field) {
+            const input = document.getElementById(field + 'Input');
+            const newValue = input.value;
+            
+            const span = document.createElement('span');
+            span.id = field + 'Value';
+            span.textContent = newValue;
+            
+            const editBtn = document.createElement('button');
+            editBtn.className = 'edit-btn';
+            editBtn.onclick = function() { editField(field); };
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            
+            input.replaceWith(span);
+            
+            // Update user profile
+            userProfile[field] = newValue;
+            localStorage.setItem('nexora_user_profile', JSON.stringify(userProfile));
+            
+            // Update profile card display
+            if (field === 'name') {
+                document.getElementById('profileName').textContent = newValue;
+            } else if (field === 'email') {
+                document.getElementById('profileEmail').textContent = newValue;
+            }
+            
+            // Replace save button with edit button
+            const saveBtn = document.querySelector('.save-btn');
+            saveBtn.replaceWith(editBtn);
+        }
+
+        // Check if user is logged in
+        function checkLogin() {
+            const isLoggedIn = localStorage.getItem('nexora_logged_in');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Logout function with confirmation
+        function logout() {
+            // Create confirmation modal
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center;';
+            modal.innerHTML = `
+                <div style='background: linear-gradient(145deg, rgba(31,41,55,0.9), rgba(17,24,39,0.95)); border: 1px solid rgba(148,163,184,0.3); border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.7);'>
+                    <h2 style='color: #e5e7eb; font-family: Rajdhani, sans-serif; font-size: 1.8rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;'>Logout</h2>
+                    <p style='color: #9ca3af; font-size: 1.1rem; margin-bottom: 30px;'>Are you sure you want to logout?</p>
+                    <div style='display: flex; gap: 15px; justify-content: center;'>
+                        <button onclick='confirmLogout(true)' style='padding: 12px 30px; border: none; border-radius: 10px; background: linear-gradient(145deg, #4ade80, #22c55e); color: #0b0c10; font-family: Rajdhani, sans-serif; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(74,222,128,0.4);'>Yes</button>
+                        <button onclick='confirmLogout(false)' style='padding: 12px 30px; border: 2px solid #ef4444; border-radius: 10px; background: transparent; color: #ef4444; font-family: Rajdhani, sans-serif; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease;'>No</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function confirmLogout(confirmed) {
+            // Remove modal
+            document.body.querySelector('[style*="position: fixed"][style*="z-index: 1000"]').remove();
+            
+            if (confirmed) {
+                localStorage.removeItem('nexora_logged_in');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize
+        window.onload = checkLogin;
+    </script>
+</body>
+</html>

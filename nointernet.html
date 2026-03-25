@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - No Internet</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="IMAGE.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary-silver: #e5e7eb;       
+            --secondary-silver: #9ca3af;     
+            --dark-metal: #1f2937;            
+            --bg-dark: #0b0c10;               
+            --glass-bg: rgba(31, 41, 55, 0.4); 
+            --glass-border: rgba(148, 163, 184, 0.2); 
+            --text-color: #f3f4f6;           
+            --text-muted: #9ca3af;
+            --accent-green: #4ade80;
+            --accent-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #1a1d24 0%, #000000 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nointernet-container {
+            text-align: center;
+            padding: 60px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .nointernet-icon {
+            font-size: 5rem;
+            color: var(--accent-red);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .nointernet-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-silver);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .nointernet-message {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .nointernet-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--accent-red);
+            border-radius: 50px;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .nointernet-status.online {
+            background: rgba(74, 222, 128, 0.15);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .nointernet-status i {
+            font-size: 0.9rem;
+        }
+
+        .retry-btn {
+            padding: 15px 40px;
+            background: linear-gradient(145deg, #4ade80, #22c55e);
+            border: none;
+            border-radius: 12px;
+            color: #0b0c10;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(74, 222, 128, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.5);
+        }
+
+        .retry-btn:disabled {
+            background: linear-gradient(145deg, #6b7280, #4b5563);
+            color: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .last-page-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .last-page-info span {
+            color: var(--primary-silver);
+            font-weight: 600;
+        }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo img {
+            max-width: 130px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .nointernet-container {
+                padding: 40px 25px;
+            }
+
+            .nointernet-icon {
+                font-size: 4rem;
+            }
+
+            .nointernet-title {
+                font-size: 1.8rem;
+            }
+
+            .nointernet-message {
+                font-size: 1rem;
+            }
+
+            .logo img {
+                max-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="IMAGE.png" alt="Nexora Logo">
+    </div>
+
+    <div class="nointernet-container">
+        <div class="nointernet-icon">
+            <i class="fas fa-wifi"></i>
+        </div>
+        
+        <h1 class="nointernet-title">No Internet</h1>
+        
+        <p class="nointernet-message">
+            Your internet connection has been lost. Please check your network settings and try again.
+        </p>
+        
+        <div class="nointernet-status" id="statusIndicator">
+            <i class="fas fa-times-circle"></i>
+            <span id="statusText">Offline</span>
+        </div>
+        
+        <button class="retry-btn" id="retryBtn" onclick="checkConnection()">
+            <i class="fas fa-sync-alt"></i>
+            Retry
+        </button>
+        
+        <div class="last-page-info">
+            <p>Last page: <span id="lastPage">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Get the last page the user was on
+        const lastPage = localStorage.getItem('nexora_last_page') || 'home.html';
+        document.getElementById('lastPage').textContent = lastPage;
+
+        // Function to check internet connection
+        function checkConnection() {
+            const retryBtn = document.getElementById('retryBtn');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            retryBtn.disabled = true;
+            retryBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+            
+            // Try to fetch a small resource to check if internet is available
+            fetch('https://www.google.com/favicon.ico', {
+                method: 'HEAD',
+                mode: 'no-cors'
+            }).then(() => {
+                // Connection is back
+                statusIndicator.classList.add('online');
+                statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i><span id="statusText">Online</span>';
+                statusText.textContent = 'Online';
+                
+                showToast('Connection restored! Redirecting...');
+                
+                // Redirect to the last page after a short delay
+                setTimeout(() => {
+                    window.location.href = lastPage;
+                }, 1500);
+            }).catch(() => {
+                // Still offline
+                retryBtn.disabled = false;
+                retryBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Retry';
+                showToast('Still offline. Please check your connection.', true);
+            });
+        }
+
+        // Toast notification function
+        function showToast(message, isError = false) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #1f2937; border: 1px solid #4b5563; border-left: 4px solid #4ade80; padding: 15px 25px; border-radius: 4px; color: #f3f4f6; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; font-family: Inter, sans-serif; transform: translateX(200%); transition: transform 0.3s ease-in-out;';
+                document.body.appendChild(toast);
+            }
+            
+            if (isError) {
+                toast.style.borderLeftColor = '#ef4444';
+                toast.innerHTML = '<i class="fas fa-times-circle" style="color: #ef4444;"></i><span>' + message + '</span>';
+            } else {
+                toast.style.borderLeftColor = '#4ade80';
+                toast.innerHTML = '<i class="fas fa-check-circle" style="color: #4ade80;"></i><span>' + message + '</span>';
+            }
+            
+            toast.style.transform = 'translateX(0)';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(200%)';
+            }, 3000);
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', function() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const retryBtn = document.getElementById('retryBtn');
+            
+            statusIndicator.classList.add('online');
+            statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i><span id="statusText">Online</span>';
+            statusText.textContent = 'Online';
+            
+            retryBtn.disabled = false;
+            retryBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Retry';
+            
+            showToast('Connection restored! Redirecting...');
+            
+            // Auto-redirect after showing online status
+            setTimeout(() => {
+                window.location.href = lastPage;
+            }, 2000);
+        });
+
+        window.addEventListener('offline', function() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            statusIndicator.classList.remove('online');
+            statusIndicator.innerHTML = '<i class="fas fa-times-circle"></i><span id="statusText">Offline</span>';
+            statusText.textContent = 'Offline';
+        });
+
+        // Check connection on page load
+        window.addEventListener('load', function() {
+            if (navigator.onLine) {
+                // Already online, redirect to last page
+                window.location.href = lastPage;
+            }
+        });
+    </script>
+</body>
+</html>

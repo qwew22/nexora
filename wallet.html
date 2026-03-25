@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Wallet</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="IMAGE.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary-silver: #e5e7eb;       
+            --secondary-silver: #9ca3af;     
+            --dark-metal: #1f2937;           
+            --bg-dark: #0b0c10;              
+            --glass-bg: rgba(31, 41, 55, 0.4); 
+            --glass-border: rgba(148, 163, 184, 0.2); 
+            --text-color: #f3f4f6;           
+            --text-muted: #9ca3af;
+            --accent-green: #4ade80;
+            --accent-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #1a1d24 0%, #000000 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Top Navigation Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo img {
+            max-width: 130px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: 0.3s;
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .nav-icon:hover, .nav-icon.active {
+            color: var(--primary-silver);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .nav-icon i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-icon span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* PIN Entry Screen */
+        .pin-screen {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .pin-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-silver);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .pin-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .pin-input-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .pin-input-group input {
+            width: 60px;
+            height: 70px;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--primary-silver);
+            font-size: 1.8rem;
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 8px;
+        }
+
+        .pin-input-group input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .pin-submit-btn {
+            padding: 15px 50px;
+            background: linear-gradient(145deg, #4ade80, #22c55e);
+            border: none;
+            border-radius: 12px;
+            color: #0b0c10;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(74, 222, 128, 0.4);
+        }
+
+        .pin-submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.5);
+        }
+
+        /* Wallet Dashboard (after PIN) */
+        .wallet-dashboard {
+            display: none;
+        }
+
+        .wallet-card {
+            background: linear-gradient(145deg, rgba(31, 41, 55, 0.7), rgba(17, 24, 39, 0.9));
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .wallet-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #9333ea, #a855f7, #9333ea);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .wallet-balance-label {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .wallet-balance-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-shadow: 0 0 30px rgba(74, 222, 128, 0.5);
+            margin-bottom: 40px;
+        }
+
+        .wallet-balance-value span {
+            color: var(--primary-silver);
+            font-size: 1.5rem;
+        }
+
+        /* Send/Receive Buttons */
+        .wallet-actions {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .wallet-action-btn {
+            padding: 20px 50px;
+            border: none;
+            border-radius: 16px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wallet-action-btn.send {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .wallet-action-btn.receive {
+            background: linear-gradient(145deg, #9333ea, #7c3aed);
+            color: white;
+            box-shadow: 0 5px 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .wallet-action-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .wallet-action-btn.send:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .wallet-action-btn.locked {
+            background: linear-gradient(145deg, #6b7280, #4b5563) !important;
+            color: #9ca3af !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+            pointer-events: none;
+        }
+
+        .wallet-action-btn.locked:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .kyc-warning {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .kyc-warning.show {
+            display: block;
+        }
+
+        .kyc-warning i {
+            color: #fbbf24;
+            margin-right: 8px;
+        }
+
+        .kyc-warning a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .kyc-warning a:hover {
+            text-decoration: underline;
+        }
+
+        .wallet-action-btn.receive:hover {
+            box-shadow: 0 8px 25px rgba(147, 51, 234, 0.5);
+        }
+
+        /* Transaction History */
+        .transactions-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .transactions-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary-silver);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+
+        .transaction-item:hover {
+            background: rgba(0,0,0,0.5);
+            transform: translateX(5px);
+        }
+
+        .transaction-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .transaction-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .transaction-icon.send {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+        }
+
+        .transaction-icon.receive {
+            background: rgba(147, 51, 234, 0.15);
+            color: #9333ea;
+        }
+
+        .transaction-details h4 {
+            color: var(--primary-silver);
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .transaction-details .address {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: monospace;
+        }
+
+        .transaction-details .time {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+
+        .transaction-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .transaction-amount.send {
+            color: #3b82f6;
+        }
+
+        .transaction-amount.receive {
+            color: #9333ea;
+        }
+
+        .download-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px;
+            transition: 0.3s;
+        }
+
+        .download-btn:hover {
+            color: var(--primary-silver);
+            transform: scale(1.1);
+        }
+
+        .no-transactions {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1f2937;
+            border: 1px solid #4b5563;
+            border-left: 4px solid var(--accent-green);
+            padding: 15px 25px;
+            border-radius: 4px;
+            color: var(--text-color);
+            transform: translateX(200%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .toast.active {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            border-left-color: var(--accent-red);
+        }
+
+        .toast.error i {
+            color: var(--accent-red);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 95%;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .top-bar {
+                padding: 15px 30px;
+            }
+            
+            .logo img {
+                max-width: 110px;
+            }
+            
+            .wallet-card {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+            
+            .nav-icons {
+                gap: 5px;
+            }
+            
+            .nav-icon {
+                padding: 8px 12px;
+            }
+            
+            .nav-icon i {
+                font-size: 1.2rem;
+            }
+            
+            .nav-icon span {
+                font-size: 0.6rem;
+            }
+            
+            .pin-input-group {
+                gap: 10px;
+            }
+            
+            .pin-input-group input {
+                width: 50px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .wallet-balance-value {
+                font-size: 2.5rem;
+            }
+            
+            .wallet-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .wallet-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .logo img {
+                max-width: 90px;
+            }
+            
+            .nav-icons {
+                gap: 2px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-icon {
+                padding: 6px 8px;
+            }
+            
+            .nav-icon i {
+                font-size: 1rem;
+            }
+            
+            .nav-icon span {
+                font-size: 0.5rem;
+            }
+            
+            .container {
+                margin: 15px auto;
+                padding: 10px;
+            }
+            
+            .wallet-card {
+                padding: 20px;
+                border-radius: 20px;
+            }
+            
+            .pin-input-group {
+                gap: 8px;
+            }
+            
+            .pin-input-group input {
+                width: 45px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .wallet-balance-value {
+                font-size: 2rem;
+            }
+            
+            .wallet-action-btn {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .top-bar {
+                padding: 8px 10px;
+            }
+            
+            .logo img {
+                max-width: 70px;
+            }
+            
+            .nav-icon {
+                padding: 5px 6px;
+            }
+            
+            .pin-input-group {
+                gap: 5px;
+            }
+            
+            .pin-input-group input {
+                width: 40px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .wallet-balance-value {
+                font-size: 1.5rem;
+            }
+            
+            .wallet-action-btn {
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="logo">
+            <img src="IMAGE.png" alt="Nexora Logo">
+        </div>
+        <div class="nav-icons">
+            <a href="home.html" class="nav-icon">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="invite.html" class="nav-icon">
+                <i class="fas fa-user-plus"></i>
+                <span>Invite</span>
+            </a>
+            <a href="wallet.html" class="nav-icon active">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet</span>
+            </a>
+            <a href="profile.html" class="nav-icon">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Support Chat Button -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="chat.html" class="wallet-action-btn" style="background: linear-gradient(145deg, #9333ea, #7c3aed); color: white; box-shadow: 0 5px 20px rgba(147, 51, 234, 0.4); display: inline-flex; padding: 15px 30px; border-radius: 12px; text-decoration: none; font-family: Rajdhani, sans-serif; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;">
+                <i class="fas fa-headset" style="margin-right: 10px;"></i> Support Chat
+            </a>
+        </div>
+
+        <!-- Set Password Screen (First Time) -->
+        <div class="pin-screen" id="setPasswordScreen">
+            <h1 class="pin-title">Set Wallet Password</h1>
+            <p class="pin-subtitle">Create a 4-digit password to secure your wallet</p>
+            
+            <div class="pin-input-group">
+                <input type="password" maxlength="1" id="newPin1" oninput="moveToNext(this, 'newPin2')">
+                <input type="password" maxlength="1" id="newPin2" oninput="moveToNext(this, 'newPin3')">
+                <input type="password" maxlength="1" id="newPin3" oninput="moveToNext(this, 'newPin4')">
+                <input type="password" maxlength="1" id="newPin4" oninput="savePassword()">
+            </div>
+            
+            <button class="pin-submit-btn" onclick="savePassword()">Save Password</button>
+            <p style="color: var(--text-muted); margin-top: 20px; font-size: 0.9rem;"><i class="fas fa-info-circle"></i> Your password will be saved as an image</p>
+        </div>
+
+        <!-- PIN Entry Screen -->
+        <div class="pin-screen" id="pinScreen" style="display: none;">
+            <h1 class="pin-title">Enter PIN</h1>
+            <p class="pin-subtitle">Enter your 4-digit PIN to access wallet</p>
+            
+            <div class="pin-input-group">
+                <input type="password" maxlength="1" id="pin1" oninput="moveToNext(this, 'pin2')">
+                <input type="password" maxlength="1" id="pin2" oninput="moveToNext(this, 'pin3')">
+                <input type="password" maxlength="1" id="pin3" oninput="moveToNext(this, 'pin4')">
+                <input type="password" maxlength="1" id="pin4" oninput="verifyPin()">
+            </div>
+            
+            <button class="pin-submit-btn" onclick="verifyPin()">Verify PIN</button>
+        </div>
+
+        <!-- Wallet Dashboard (after PIN) -->
+        <div class="wallet-dashboard" id="walletDashboard">
+            <div class="wallet-card">
+                <div class="wallet-balance-label">Total Balance</div>
+                <div class="wallet-balance-value"><span id="walletBalance">0.00</span> <span>NRC</span></div>
+                
+                <div class="wallet-actions">
+                    <div class="kyc-warning" id="kycWarning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>KYC verification required to send funds. <a href="kyc.html" onclick="localStorage.setItem('redirect_after_kyc', 'wallet.html')">Complete KYC</a></span>
+                    </div>
+                    <a href="send.html" class="wallet-action-btn send" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i> Send
+                    </a>
+                    <a href="receive.html" class="wallet-action-btn receive">
+                        <i class="fas fa-arrow-down"></i> Receive
+                    </a>
+                </div>
+            </div>
+
+            <div class="transactions-section">
+                <h2 class="transactions-title">Transaction History</h2>
+                <div id="transactionsList">
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon send">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Sent NRC</h4>
+                                <div class="address">To: 0x7a...3f2c</div>
+                                <div class="time">Today, 10:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="transaction-amount send">
+                            -50 NRC
+                            <button class="download-btn" onclick="downloadTransaction(this)" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon receive">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Received NRC</h4>
+                                <div class="address">From: 0x3b...8a1d</div>
+                                <div class="time">Yesterday, 3:45 PM</div>
+                            </div>
+                        </div>
+                        <div class="transaction-amount receive">
+                            +100 NRC
+                            <button class="download-btn" onclick="downloadTransaction(this)" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon send">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Sent NRC</h4>
+                                <div class="address">To: 0x9c...2e4b</div>
+                                <div class="time">Mar 23, 2024, 8:20 AM</div>
+                            </div>
+                        </div>
+                        <div class="transaction-amount send">
+                            -25 NRC
+                            <button class="download-btn" onclick="downloadTransaction(this)" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Terms Link -->
+    <div class="footer" style="text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 13px; border-top: 1px solid var(--glass-border); margin-top: 40px;">
+        <p>&copy; 2024 Nexora. All rights reserved.</p>
+        <p style="margin-top: 10px;">By using Nexora, you agree to our <a href="terms.html" style="color: var(--accent-gold); text-decoration: none;">Terms & Conditions</a> and <a href="terms.html" style="color: var(--accent-gold); text-decoration: none;">Privacy Policy</a></p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <script>
+        // Toast notification function
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msgSpan = document.getElementById('toast-message');
+            const icon = toast.querySelector('i');
+            
+            msgSpan.innerText = message;
+            
+            if (isError) {
+                toast.classList.add('error');
+                icon.className = 'fas fa-times-circle';
+            } else {
+                toast.classList.remove('error');
+                icon.className = 'fas fa-check-circle';
+            }
+            
+            toast.classList.add('active');
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        // Load wallet balance from localStorage
+        let walletBalance = parseFloat(localStorage.getItem('nexora_wallet_balance')) || 0;
+        
+        // Always show PIN screen (never remember)
+        document.getElementById('walletDashboard').style.display = 'none';
+        
+        function moveToNext(current, nextId) {
+            if (current.value.length === 1) {
+                document.getElementById(nextId).focus();
+            }
+        }
+        
+        function verifyPin() {
+            const pin1 = document.getElementById('pin1').value;
+            const pin2 = document.getElementById('pin2').value;
+            const pin3 = document.getElementById('pin3').value;
+            const pin4 = document.getElementById('pin4').value;
+            
+            const fullPin = pin1 + pin2 + pin3 + pin4;
+            
+            if (fullPin.length === 4) {
+                // Check if PIN is correct (stored in localStorage as 'nexora_wallet_pin')
+                const storedPin = localStorage.getItem('nexora_wallet_pin');
+                
+                if (storedPin && storedPin !== fullPin) {
+                    showToast('Incorrect PIN! Please try again.', true);
+                    return;
+                }
+                
+                // Show success notification
+                showToast('PIN verified successfully!');
+                
+                // Store PIN verification in session
+                sessionStorage.setItem('wallet_pin_verified', 'true');
+                
+                setTimeout(() => {
+                    showWalletDashboard();
+                }, 1000);
+            } else {
+                showToast('Please enter 4-digit PIN', true);
+            }
+        }
+        
+        function showWalletDashboard() {
+            document.getElementById('pinScreen').style.display = 'none';
+            document.getElementById('walletDashboard').style.display = 'block';
+            document.getElementById('walletBalance').textContent = walletBalance.toFixed(2);
+        }
+        
+        function downloadTransaction(btn) {
+            const transactionItem = btn.closest('.transaction-item');
+            const details = transactionItem.querySelector('.transaction-details');
+            const amount = transactionItem.querySelector('.transaction-amount');
+            
+            const type = amount.classList.contains('send') ? 'Sent' : 'Received';
+            const amountText = amount.textContent.replace('Download', '').trim();
+            const address = details.querySelector('.address').textContent;
+            const time = details.querySelector('.time').textContent;
+            
+            // Create image content
+            const content = `
+NEXORA TRANSACTION RECEIPT
+===========================
+Type: ${type}
+Amount: ${amountText}
+${address}
+Time: ${time}
+Date: ${new Date().toLocaleDateString()}
+===========================
+Thank you for using Nexora!
+            `;
+            
+            // Create download
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transaction_${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            // Show notification
+            showToast('Transaction receipt downloaded!');
+        }
+        
+        // Check if user is logged in
+        function checkLogin() {
+            const isLoggedIn = localStorage.getItem('nexora_logged_in');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Check KYC status and lock/unlock send button
+        function checkKYCStatus() {
+            const kycSubmitted = localStorage.getItem('nexora_kyc_submitted');
+            const kycApproval = localStorage.getItem('nexora_kyc_approval');
+            const sendBtn = document.getElementById('sendBtn');
+            const kycWarning = document.getElementById('kycWarning');
+
+            if (kycSubmitted === 'true' && kycApproval === 'approved') {
+                // KYC approved - enable send button
+                sendBtn.classList.remove('locked');
+                kycWarning.classList.remove('show');
+            } else {
+                // KYC not approved - lock send button
+                sendBtn.classList.add('locked');
+                kycWarning.classList.add('show');
+            }
+        }
+
+        // Check if wallet password is set
+        function checkWalletPassword() {
+            const walletPin = localStorage.getItem('nexora_wallet_pin');
+            
+            if (!walletPin) {
+                // No password set - show set password screen
+                document.getElementById('setPasswordScreen').style.display = 'block';
+                document.getElementById('pinScreen').style.display = 'none';
+            } else {
+                // Password set - show PIN entry screen
+                document.getElementById('setPasswordScreen').style.display = 'none';
+                document.getElementById('pinScreen').style.display = 'block';
+            }
+        }
+
+        // Save wallet password
+        function savePassword() {
+            const pin1 = document.getElementById('newPin1').value;
+            const pin2 = document.getElementById('newPin2').value;
+            const pin3 = document.getElementById('newPin3').value;
+            const pin4 = document.getElementById('newPin4').value;
+            
+            const fullPin = pin1 + pin2 + pin3 + pin4;
+            
+            if (fullPin.length === 4) {
+                // Save password to localStorage
+                localStorage.setItem('nexora_wallet_pin', fullPin);
+                
+                // Show success message
+                showToast('Password saved successfully!');
+                
+                // Generate and download password image
+                setTimeout(() => {
+                    downloadPasswordCard(fullPin);
+                }, 1000);
+                
+                // Show PIN screen
+                setTimeout(() => {
+                    document.getElementById('setPasswordScreen').style.display = 'none';
+                    document.getElementById('pinScreen').style.display = 'block';
+                }, 2000);
+            } else {
+                showToast('Please enter 4-digit password', true);
+            }
+        }
+
+        // Download password as image
+        function downloadPasswordCard(pin) {
+            // Create canvas for the password card
+            const canvas = document.createElement('canvas');
+            canvas.width = 400;
+            canvas.height = 250;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, 400, 250);
+            gradient.addColorStop(0, '#0b0c10');
+            gradient.addColorStop(1, '#1f2937');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 400, 250);
+            
+            // Border
+            ctx.strokeStyle = '#9333ea';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(10, 10, 380, 230);
+            
+            // Logo/Title
+            ctx.fillStyle = '#e5e7eb';
+            ctx.font = 'bold 24px Rajdhani';
+            ctx.textAlign = 'center';
+            ctx.fillText('NEXORA', 200, 50);
+            ctx.fillStyle = '#9333ea';
+            ctx.font = '18px Rajdhani';
+            ctx.fillText('WALLET PASSWORD', 200, 75);
+            
+            // Password (showing clearly)
+            ctx.fillStyle = '#4ade80';
+            ctx.font = 'bold 48px Rajdhani';
+            ctx.fillText(pin, 200, 140);
+            
+            // Date
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = '12px Inter';
+            ctx.fillText('Created: ' + new Date().toLocaleDateString(), 200, 180);
+            
+            // Footer
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '10px Inter';
+            ctx.fillText('Keep this password safe', 200, 210);
+            
+            // Download as image
+            const link = document.createElement('a');
+            link.download = 'nexora_wallet_password.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            showToast('Password card downloaded!');
+        }
+
+        window.onload = function() {
+            checkLogin();
+            checkWalletPassword();
+            checkKYCStatus();
+        };
+    </script>
+</body>
+</html>

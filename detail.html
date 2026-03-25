@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora - Personal Details</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" href="IMAGE.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary-silver: #e5e7eb;       
+            --secondary-silver: #9ca3af;     
+            --dark-metal: #1f2937;           
+            --bg-dark: #0b0c10;              
+            --glass-bg: rgba(31, 41, 55, 0.4); 
+            --glass-border: rgba(148, 163, 184, 0.2); 
+            --text-color: #f3f4f6;           
+            --text-muted: #9ca3af;
+            --accent-green: #4ade80;
+            --accent-blue: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #1a1d24 0%, #000000 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Top Navigation Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo img {
+            max-width: 130px;
+        }
+
+        .back-btn {
+            color: var(--primary-silver);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .detail-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .detail-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .detail-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .detail-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .detail-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-silver);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .detail-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: 0.3s;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-select option {
+            background: var(--dark-metal);
+            color: var(--text-color);
+        }
+
+        /* Upload Section */
+        .upload-section {
+            margin-bottom: 25px;
+        }
+
+        .upload-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .upload-label .optional {
+            font-size: 0.8rem;
+            color: var(--secondary-silver);
+            text-transform: none;
+        }
+
+        .upload-box {
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed var(--glass-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-box:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .upload-box.uploaded {
+            border-color: var(--accent-green);
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .upload-box i {
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .upload-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .upload-box .file-name {
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        .upload-box input {
+            display: none;
+        }
+
+        .upload-box .preview-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .upload-box.has-preview .preview-image {
+            display: block;
+        }
+
+        .upload-box.has-preview i,
+        .upload-box.has-preview p {
+            display: none;
+        }
+
+        /* Save Button */
+        .save-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(145deg, #4ade80, #22c55e);
+            border: none;
+            border-radius: 16px;
+            color: #000;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(74, 222, 128, 0.4);
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.5);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(74, 222, 128, 0.15);
+            border: 1px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .success-message.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 95%;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .top-bar {
+                padding: 15px 30px;
+            }
+            
+            .logo img {
+                max-width: 110px;
+            }
+            
+            .detail-card {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+            
+            .detail-card {
+                padding: 25px;
+            }
+            
+            .detail-title {
+                font-size: 1.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 0.9rem;
+            }
+            
+            .submit-btn {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .logo img {
+                max-width: 90px;
+            }
+            
+            .back-btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .container {
+                margin: 15px auto;
+                padding: 10px;
+            }
+            
+            .detail-card {
+                padding: 20px 15px;
+                border-radius: 20px;
+            }
+            
+            .detail-header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .detail-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .detail-title {
+                font-size: 1.3rem;
+            }
+            
+            .detail-subtitle {
+                font-size: 0.85rem;
+            }
+            
+            .form-group label {
+                font-size: 0.85rem;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 12px;
+                font-size: 0.85rem;
+            }
+            
+            .submit-btn {
+                padding: 14px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .top-bar {
+                padding: 8px 10px;
+            }
+            
+            .logo img {
+                max-width: 70px;
+            }
+            
+            .detail-title {
+                font-size: 1.1rem;
+            }
+            
+            .submit-btn {
+                padding: 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="logo">
+            <img src="IMAGE.png" alt="Nexora Logo">
+        </div>
+        <a href="kyc.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to KYC
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="detail-card">
+            <div class="detail-header">
+                <div class="detail-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1 class="detail-title">Personal Details</h1>
+                <p class="detail-subtitle">Enter your personal and address information</p>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                Details saved successfully!
+            </div>
+
+            <form id="detailForm" onsubmit="saveDetails(event)">
+                <!-- Personal Info Section -->
+                <h3 class="section-title">
+                    <i class="fas fa-user"></i> Personal Information
+                </h3>
+
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" id="fullName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Father Name</label>
+                    <input type="text" class="form-input" id="fatherName" placeholder="Enter your father name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="email" placeholder="Enter your email address" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" class="form-input" id="dob" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select class="form-select" id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Address Info Section -->
+                <h3 class="section-title">
+                    <i class="fas fa-map-marker-alt"></i> Address Information
+                </h3>
+
+                <div class="form-group">
+                    <label class="form-label">Full Address</label>
+                    <input type="text" class="form-input" id="fullAddress" placeholder="Enter your full address" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">City</label>
+                        <input type="text" class="form-input" id="city" placeholder="Enter city" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Country</label>
+                        <input type="text" class="form-input" id="country" placeholder="Enter country" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Postal Code</label>
+                    <input type="text" class="form-input" id="postalCode" placeholder="Enter postal code" required>
+                </div>
+
+                <!-- Proof of Address (Optional) -->
+                <div class="upload-section">
+                    <label class="upload-label">
+                        Proof of Address <span class="optional">(Optional)</span>
+                    </label>
+                    <div class="upload-box" id="addressProofBox" onclick="document.getElementById('addressProof').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload proof of address (utility bill, bank statement)</p>
+                        <div class="file-name" id="addressProofFileName"></div>
+                        <input type="file" id="addressProof" accept="image/*,.pdf" onchange="handleFileSelect('addressProof', 'addressProofFileName', 'addressProofBox')">
+                        <img class="preview-image" id="addressProofPreview" alt="Address Proof Preview">
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button type="submit" class="save-btn">
+                    <i class="fas fa-save"></i> Save Details
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Handle file selection for address proof
+        function handleFileSelect(inputId, displayId, boxId) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            const box = document.getElementById(boxId);
+            const preview = document.getElementById(inputId + 'Preview');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                display.textContent = '✓ ' + file.name;
+                box.classList.add('uploaded');
+                
+                // Show preview for images
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        box.classList.add('has-preview');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        // Load saved data if exists
+        function loadSavedData() {
+            const savedData = localStorage.getItem('nexora_personal_details');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('fullName').value = data.fullName || '';
+                document.getElementById('fatherName').value = data.fatherName || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('phone').value = data.phone || '';
+                document.getElementById('dob').value = data.dob || '';
+                document.getElementById('gender').value = data.gender || '';
+                document.getElementById('fullAddress').value = data.fullAddress || '';
+                document.getElementById('city').value = data.city || '';
+                document.getElementById('country').value = data.country || '';
+                document.getElementById('postalCode').value = data.postalCode || '';
+            }
+        }
+
+        // Save Details
+        function saveDetails(event) {
+            event.preventDefault();
+            
+            const details = {
+                fullName: document.getElementById('fullName').value,
+                fatherName: document.getElementById('fatherName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                dob: document.getElementById('dob').value,
+                gender: document.getElementById('gender').value,
+                fullAddress: document.getElementById('fullAddress').value,
+                city: document.getElementById('city').value,
+                country: document.getElementById('country').value,
+                postalCode: document.getElementById('postalCode').value
+            };
+
+            // Save address proof if uploaded
+            const addressProof = document.getElementById('addressProof').files[0];
+            if (addressProof) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    details.addressProof = e.target.result;
+                    finishSave(details);
+                };
+                reader.readAsDataURL(addressProof);
+            } else {
+                finishSave(details);
+            }
+        }
+
+        function finishSave(details) {
+            // Save to localStorage
+            localStorage.setItem('nexora_personal_details', JSON.stringify(details));
+            localStorage.setItem('nexora_kyc_detail', 'completed');
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+
+            // Always redirect to kyc.html after saving
+            setTimeout(() => {
+                window.location.href = 'kyc.html';
+            }, 1500);
+        }
+
+        // Check if user is logged in
+        function checkLogin() {
+            const isLoggedIn = localStorage.getItem('nexora_logged_in');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'index.html';
+            }
+        }
+
+        window.onload = function() {
+            checkLogin();
+            loadSavedData();
+        };
+    </script>
+</body>
+</html>
